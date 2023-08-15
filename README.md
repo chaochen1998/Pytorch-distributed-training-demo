@@ -14,28 +14,30 @@ Go through the whole process of distributed traning by training a simple CNN mod
 OS X & Linux:
 
 ```sh
-git clone 
+git clone git@github.com:SANJINGSHOU14/Pytorch-distributed-training-demo.git
 ```
 
 Windows:
 
-```sh
-edit autoexec.bat
-```
+just download the zip
 
 ## Usage example
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
-
-_For more examples and usage, please refer to the [Wiki][wiki]._
+Train the model on the single device with 4 GPUs
+```sh
+torchrun
+    --standalone
+    --nnodes=1
+    --nproc-per-node=4
+    YOUR_TRAINING_SCRIPT.py (--arg1 ... train script args...)
+```
+remember replace `YOUR_TRAINING_SCRIPT.py` with your script name.
 
 ## Development setup
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
 
 ```sh
-make install
-npm test
+pip install torch
 ```
 
 ## Release History
@@ -58,10 +60,5 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 5. Create a new Pull Request
 
 <!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
+
 
