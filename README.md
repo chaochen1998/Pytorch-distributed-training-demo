@@ -45,11 +45,10 @@ pip install torch
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Chao – chao299@outlook.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+Distributed under the GNU3 license. See ``LICENSE`` for more information.
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
 
 ## Contributing
 
