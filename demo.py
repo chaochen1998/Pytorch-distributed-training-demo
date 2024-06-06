@@ -30,6 +30,27 @@ if __name__ == "__main__":
     net = DDP(net, device_ids=[local_rank], output_device=local_rank)
 
     # 2. define dataloader
+    # only one time download
+    if rank==0:
+        trainset = torchvision.datasets.CIFAR10(
+            root="./data",
+            train=True,
+            download=True,
+            transform=transforms.Compose(
+                [
+                    transforms.RandomCrop(32, padding=4),
+                    transforms.RandomHorizontalFlip(),
+                    transforms.ToTensor(),
+                    transforms.Normalize(
+                        (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
+                    ),
+                ]
+            ),
+        )
+    # other rank wait before rank 0 finishing the download.
+    dist.barrier()
+
+    # other rank create trainset
     trainset = torchvision.datasets.CIFAR10(
         root="./data",
         train=True,
@@ -105,7 +126,11 @@ if __name__ == "__main__":
                         100.0 * correct / total,
                     )
                 )
+    # save the model once on rank 0.
     if rank == 0:
         print("\n=======  Training Finished  ======= \n")
-    ctime = time.time()
-    print(ctime-ptime)
+        ctime = time.time()
+        print(ctime-ptime)
+        model = net.module if isinstance(net, DDP) else net
+        model = model.cpu()
+        torch.save(model.state_dict(), "./ckpt.pth")
